@@ -12,9 +12,6 @@ function PortfolioItem({ item }) {
     return (
         <Card
             square
-            sx={{
-                aspectRatio:'1'
-            }}
         >
             <CardActionArea
                 sx={{
@@ -26,19 +23,18 @@ function PortfolioItem({ item }) {
             >
                 <CardMedia
                     sx={{
-                        height:'50%',
+                        aspectRatio: '2/1',
                         backgroundPosition:'top'
                     }}
                     image={img}
                 />
                 <CardContent
                     sx={{
-                        p:'0.5rem 0',
-                        height:'50%'
+                        p:'0.5rem 0'
                     }}
                 >
                     <Typography variant='h6' component='h6' sx={{mb:'0.5rem'}}>
-                        {item.title}
+                        {item.name}
                     </Typography>
                     <Typography variant='p' component='p' sx={{mb:'1rem',fontStyle:'italic'}}>
                         {item.company.data.attributes.name}

@@ -25,20 +25,20 @@ function App() {
         }
     })
 
-    let [about,setAbout]=useState();
-    useEffect(() => {
-      axios.get(`${process.env.REACT_APP_BACKEND}api/about?populate=*`).then(response => {
-        setAbout(response.data.data.attributes);
-      });    
-    },[]);
+    const [about,setAbout]=useState();
+    const [phone,setPhone]=useState(useMediaQuery('(max-width:600px)'));
 
-    let phone=useMediaQuery('(max-width:600px)');
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_BACKEND}api/about?populate=*`).then(response => {
+            setAbout(response.data.data.attributes);
+        });    
+    },[]);
 
     return (
         <ThemeProvider theme={theme}>
             <Box
                 sx={{
-                    width:'100%',
+                    width:'calc(100% - 2rem)',
                     maxWidth:'1000px',
                     margin:'0 auto',
                     p:'1rem',
@@ -47,12 +47,18 @@ function App() {
                 }}
             >
                 {/* Home */}
-                <Masonry columns={phone? 1 : 2} spacing={2} sx={{m:0}}>
+                {phone?
+                <Masonry columns={1} spacing={2} sx={{m:0}}>
+                    <Rect size={'auto'} text={'Creative Portfolio of Finn Bullock'}/>
+                </Masonry>
+                :
+                <Masonry columns={2} spacing={2} sx={{m:0}}>
                     <Rect size={'short'} text={'Creative'}/>
                     <Rect size={'short'} text={'Portfolio'}/>
                     <Rect size={'short'} text={'of'}/>
                     <Rect size={'short'} text={'Finn Bullock'}/>
                 </Masonry>
+                }
 
                 <Divider/>
 
@@ -60,7 +66,7 @@ function App() {
                 {about &&
                 <Masonry columns={phone? 1 : 2} spacing={2} sx={{m:0}}>
                     <Rect size={'short'} text={'About Me'}/>
-                    <Rect size={'square'} text={about.about} smallText/>
+                    <Rect size={ phone? 'auto' : 'square'} text={about.about} smallText/>
                     <Rect size={'square'} img={about.image.data.attributes.url}/>
                     <Contact contact={about}/>
                 </Masonry>

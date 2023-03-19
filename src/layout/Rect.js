@@ -16,7 +16,7 @@ function Rect({ size, text, smallText=false, img=null }) {
                 display:'flex',
                 alignItems:'center',
                 justifyContent:'center',
-                aspectRatio: size==='short'? '3/1' : size==='tall'? '1.5/1' : '1',
+                aspectRatio: size==='short'? '3/1' : size==='square'? '1' : '',
             }}
         >
             { img?
@@ -28,7 +28,7 @@ function Rect({ size, text, smallText=false, img=null }) {
                 <Typography 
                     variant={ smallText? 'p' : 'h2' } 
                     component={ smallText? 'p' : 'h2' }
-                    sx={{ m:'2rem', whiteSpace: 'pre-line' }}
+                    sx={{ m:'2rem', whiteSpace: 'pre-line', textAlign:'center' }}
                 >
                     {text}
                 </Typography>
