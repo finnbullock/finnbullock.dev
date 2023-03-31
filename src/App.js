@@ -7,7 +7,7 @@ import Portfolio from "./portfolio/Portfolio";
 import { Masonry } from "@mui/lab";
 import Divider from "./layout/Divider";
 import Contact from "./layout/Contact";
-import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
+import { createTheme, Skeleton, ThemeProvider } from "@mui/material";
 
 function App() {
 
@@ -26,13 +26,13 @@ function App() {
     })
 
     const [about,setAbout]=useState();
-    const [phone,setPhone]=useState(useMediaQuery('(max-width:600px)'));
+    const [phone,setPhone]=useState(window.innerWidth<=600);
 
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BACKEND}api/about?populate=*`).then(response => {
             setAbout(response.data.data.attributes);
         });    
-    },[]);
+    });
 
     return (
         <ThemeProvider theme={theme}>
@@ -48,29 +48,46 @@ function App() {
             >
                 {/* Home */}
                 {phone?
-                <Masonry columns={1} spacing={2} sx={{m:0}}>
-                    <Rect size={'auto'} text={'Creative Portfolio of Finn Bullock'}/>
-                </Masonry>
+                    <Masonry columns={1} spacing={2} sx={{m:0}}>
+                        <Rect size={'auto'} text={'Creative Portfolio of Finn Bullock'}/>
+                    </Masonry>
                 :
-                <Masonry columns={2} spacing={2} sx={{m:0}}>
-                    <Rect size={'short'} text={'Creative'}/>
-                    <Rect size={'short'} text={'Portfolio'}/>
-                    <Rect size={'short'} text={'of'}/>
-                    <Rect size={'short'} text={'Finn Bullock'}/>
-                </Masonry>
+                    <Masonry columns={2} spacing={2} sx={{m:0}}>
+                        <Rect size={'short'} text={'Creative'}/>
+                        <Rect size={'short'} text={'Portfolio'}/>
+                        <Rect size={'short'} text={'of'}/>
+                        <Rect size={'short'} text={'Finn Bullock'}/>
+                    </Masonry>
                 }
 
                 <Divider/>
 
                 {/* About */}
-                {about &&
                 <Masonry columns={phone? 1 : 2} spacing={2} sx={{m:0}}>
+                {about?
+                <>
                     <Rect size={'short'} text={'About Me'}/>
                     <Rect size={ phone? 'auto' : 'square'} text={about.about} smallText/>
                     <Rect size={'square'} img={about.image.data.attributes.url}/>
                     <Contact contact={about}/>
-                </Masonry>
+                </>
+                :
+                <>
+                    <Box sx={{aspectRatio:'3/1'}}>
+                        <Skeleton variant='rectangular' sx={{height:'100%'}}/>
+                    </Box>
+                    <Box sx={{aspectRatio:'1'}}>
+                        <Skeleton variant='rectangular' sx={{height:'100%'}}/>
+                    </Box>
+                    <Box sx={{aspectRatio:'1'}}>
+                        <Skeleton variant='rectangular' sx={{height:'100%'}}/>
+                    </Box>
+                    <Box sx={{aspectRatio:'3/1'}}>
+                        <Skeleton variant='rectangular' sx={{height:'100%'}}/>
+                    </Box>
+                </>
                 }
+                </Masonry>
 
                 <Divider/>
 

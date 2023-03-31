@@ -11,7 +11,6 @@ function Contact({ contact }) {
             square
             elevation={2}
             sx={{
-                m:'1rem 0',
                 display:'flex',
                 alignItems:'center',
                 justifyContent:'center',

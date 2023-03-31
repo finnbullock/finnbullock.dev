@@ -23,7 +23,8 @@ function PortfolioItem({ item }) {
             >
                 <CardMedia
                     sx={{
-                        aspectRatio: '2/1',
+                        //aspectRatio: '2/1',
+                        height:'200px',
                         backgroundPosition:'top'
                     }}
                     image={img}
